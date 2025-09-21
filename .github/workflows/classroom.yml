@@ -13,84 +13,13 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  autograding:
     name: Autograding
     runs-on: ubuntu-latest
     if: github.actor != 'github-classroom[bot]'
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Needed for autograding
-
-      # Install dependencies
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc make libc6-dev
-
-      # Compile all programs
-      - name: Compile programs
-        run: |
-          make clean
-          make all
-
-      # Run voltage validation tests
-      - name: Test voltage validation
-        id: voltage-test
-        run: |
-          make test_voltage
-          echo "voltage_result=$?" >> $GITHUB_OUTPUT
-
-      # Run power calculation tests
-      - name: Test power calculation
-        id: power-test
-        run: |
-          make test_power
-          echo "power_result=$?" >> $GITHUB_OUTPUT
-
-      # Run all tests and capture results
-      - name: Run all tests
-        id: all-tests
-        run: |
-          make test > test_results.txt 2>&1 || true
-          cat test_results.txt
-
-          # Extract test results
-          voltage_passed=$(grep -A 10 "=== Voltage Validation Test Suite ===" test_results.txt | grep "Passed:" | awk '{print $2}' || echo "0")
-          voltage_total=$(grep -A 10 "=== Voltage Validation Test Suite ===" test_results.txt | grep "Total tests:" | awk '{print $3}' || echo "10")
-          power_passed=$(grep -A 10 "=== Power Calculation Test Suite ===" test_results.txt | grep "Passed:" | awk '{print $2}' || echo "0")
-          power_total=$(grep -A 10 "=== Power Calculation Test Suite ===" test_results.txt | grep "Total tests:" | awk '{print $3}' || echo "10")
-
-          echo "voltage_passed=$voltage_passed" >> $GITHUB_OUTPUT
-          echo "voltage_total=$voltage_total" >> $GITHUB_OUTPUT
-          echo "power_passed=$power_passed" >> $GITHUB_OUTPUT
-          echo "power_total=$power_total" >> $GITHUB_OUTPUT
-
-          # Calculate total score
-          total_passed=$((voltage_passed + power_passed))
-          total_tests=$((voltage_total + power_total))
-
-          echo "total_passed=$total_passed" >> $GITHUB_OUTPUT
-          echo "total_tests=$total_tests" >> $GITHUB_OUTPUT
-
-      # GitHub Classroom Autograding
-      - name: Autograding Reporter
-        uses: education/autograding-grading-reporter@v1
-        env:
-          VOLTAGE_TESTS_RESULTS: "${{ steps.all-tests.outputs.voltage_passed }}/${{ steps.all-tests.outputs.voltage_total }}"
-          POWER_TESTS_RESULTS: "${{ steps.all-tests.outputs.power_passed }}/${{ steps.all-tests.outputs.power_total }}"
-          TOTAL_TESTS_RESULTS: "${{ steps.all-tests.outputs.total_passed }}/${{ steps.all-tests.outputs.total_tests }}"
-        with:
-          runners: voltage-tests,power-tests,compilation-check
-
-  # Detailed autograding with points
-  autograding:
-    name: Detailed Autograding
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.actor != 'github-classroom[bot]'
-    steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
@@ -107,12 +36,15 @@ jobs:
           else
             echo "score=0" >> $GITHUB_OUTPUT
             echo "âŒ Compilation failed (0/20 points)"
+            exit 1
           fi
 
       - name: Voltage Validation Tests (40 points)
         id: voltage-tests
         run: |
-          make test_voltage > voltage_results.txt 2>&1 || true
+          ./tests/test_voltage > voltage_results.txt 2>&1 || true
+          cat voltage_results.txt
+
           passed=$(grep "Passed:" voltage_results.txt | awk '{print $2}' || echo "0")
           total=$(grep "Total tests:" voltage_results.txt | awk '{print $3}' || echo "10")
 
@@ -130,7 +62,9 @@ jobs:
       - name: Power Calculation Tests (40 points)
         id: power-tests
         run: |
-          make test_power > power_results.txt 2>&1 || true
+          ./tests/test_power > power_results.txt 2>&1 || true
+          cat power_results.txt
+
           passed=$(grep "Passed:" power_results.txt | awk '{print $2}' || echo "0")
           total=$(grep "Total tests:" power_results.txt | awk '{print $3}' || echo "10")
 
@@ -177,4 +111,31 @@ jobs:
           echo "### í ½í³ Detailed Results:" >> $GITHUB_STEP_SUMMARY
           echo "- Voltage validation tests: ${{ steps.voltage-tests.outputs.passed }}/${{ steps.voltage-tests.outputs.total }} passed" >> $GITHUB_STEP_SUMMARY
           echo "- Power calculation tests: ${{ steps.power-tests.outputs.passed }}/${{ steps.power-tests.outputs.total }} passed" >> $GITHUB_STEP_SUMMARY
+
+      - name: Autograding Reporter
+        uses: education/autograding-command@v1
+        with:
+          test-name: 'Compilation Check'
+          setup-command: 'make clean'
+          command: 'make all'
+          timeout: 10
+          max-score: 20
+
+      - name: Voltage Tests Reporter
+        uses: education/autograding-command@v1
+        with:
+          test-name: 'Voltage Validation Tests'
+          setup-command: ''
+          command: './tests/test_voltage'
+          timeout: 10
+          max-score: 40
+
+      - name: Power Tests Reporter
+        uses: education/autograding-command@v1
+        with:
+          test-name: 'Power Calculation Tests'
+          setup-command: ''
+          command: './tests/test_power'
+          timeout: 10
+          max-score: 40
 
