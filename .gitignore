@@ -1,0 +1,91 @@
+# Compiled Object files
+*.o
+*.obj
+
+# Executables
+*.exe
+*.out
+*.app
+voltage_checker
+power_calculator
+debug_practice
+safety_validator
+multi_validator
+batch_processor
+
+# Test executables
+tests/test_voltage
+tests/test_power
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Static libraries
+*.a
+*.lib
+
+# Shared libraries
+*.so
+*.dylib
+*.dll
+
+# Temporary files
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Build directories
+build/
+dist/
+*.build/
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-*
+
+# Log files
+*.log
+compilation.log
+test_results.txt
+voltage_results.txt
+power_results.txt
+
+# Coverage files
+*.gcov
+*.gcda
+*.gcno
+
+# Valgrind output
+valgrind-out.txt
+
+# Core dumps
+core
+core.*
+
+# Backup files
+*.bak
+*.backup
+
+# Generated documentation
+docs/html/
+docs/latex/
+
+# Configuration files (keep templates)
+config/*.local
+!config/*.txt
+
+# Output files
+results/
+output/
+*.csv
+*.json
+!.github/classroom/autograding.json
+
+# Keep reference solution for instructors
+# reference-solution

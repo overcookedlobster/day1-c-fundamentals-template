@@ -1,0 +1,43 @@
+=== Chip Power Consumption Calculator ===
+Power Limits: 2.00W maximum
+Voltage Range: 1.5V - 2.0V
+Current Range: 0.1A - 1.5A
+
+--- Power Calculation #1 ---
+Enter voltage (V): 1.8
+Enter current (A): 0.5
+
+--- Results ---
+Voltage: 1.80V
+Current: 0.50A
+Power: 0.900W
+Status: ✓ EFFICIENT - Low power consumption
+Power density: 0.500W/V
+
+Calculate another power reading? (y/n): y
+
+--- Power Calculation #2 ---
+Enter voltage (V): 1.8
+Enter current (A): 1.2
+
+--- Results ---
+Voltage: 1.80V
+Current: 1.20A
+Power: 2.160W
+Status: ✗ EXCESSIVE - Exceeds power limit!
+WARNING: Power 2.160W exceeds limit of 2.00W!
+Chip may overheat or damage power supply.
+Power density: 1.200W/V
+
+Calculate another power reading? (y/n): n
+
+=== Power Analysis Summary ===
+Total calculations: 2
+Total power consumption: 3.060W
+Average power consumption: 1.530W
+Overall Assessment: ⚠ HIGH POWER CONSUMPTION
+Consider power optimization techniques.
+Power budget utilization: 76.5%
+
+Thank you for using the Power Calculator!
+

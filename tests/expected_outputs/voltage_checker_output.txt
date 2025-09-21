@@ -1,0 +1,28 @@
+=== Chip Voltage Validation System ===
+Nominal Voltage: 1.80V (±5.0%)
+Acceptable Range: 1.71V - 1.89V
+
+Enter voltage readings (enter -1 to quit):
+Voltage reading: 1.8
+✓ PASS: Voltage 1.80V is within acceptable range
+
+Voltage reading: 1.75
+✓ PASS: Voltage 1.75V is within acceptable range
+
+Voltage reading: 1.5
+✗ FAIL: Voltage 1.50V is outside acceptable range
+  → Voltage is 0.21V below minimum (1.71V)
+
+Voltage reading: 2.0
+✗ FAIL: Voltage 2.00V is outside acceptable range
+  → Voltage is 0.11V above maximum (1.89V)
+
+Voltage reading: -1
+
+=== Validation Summary ===
+Total tests: 4
+Passed: 2
+Failed: 2
+Pass rate: 50.0%
+Status: ✗ CHIP FAILED - Reject chip
+

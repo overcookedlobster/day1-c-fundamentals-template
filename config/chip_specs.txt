@@ -1,0 +1,60 @@
+# Chip Specification Configuration File
+# Day 1: C Fundamentals and Compilation Lab
+#
+# This file contains chip specifications for validation testing.
+# Format: parameter_name=value (comments start with #)
+
+# Voltage Specifications (in Volts)
+nominal_voltage_1v8=1.8
+nominal_voltage_3v3=3.3
+voltage_tolerance_percent=5.0
+min_operating_voltage=1.5
+max_operating_voltage=2.0
+
+# Current Specifications (in Amperes)
+min_operating_current=0.1
+max_operating_current=1.5
+nominal_current=0.5
+
+# Power Specifications (in Watts)
+max_power_budget=2.0
+efficient_power_threshold=1.0
+moderate_power_threshold=1.5
+thermal_power_limit=1.8
+
+# Temperature Specifications (in Celsius)
+min_operating_temperature=-40
+max_operating_temperature=85
+nominal_temperature=25
+temperature_tolerance=10
+
+# Frequency Specifications (in MHz)
+min_frequency=100
+max_frequency=1000
+nominal_frequency=500
+frequency_tolerance_percent=2.0
+
+# Test Configuration
+test_iterations=100
+statistical_confidence=95.0
+measurement_precision=0.001
+
+# Chip Variants
+[CHIP_VARIANT_A]
+voltage=1.8
+current=0.5
+max_power=1.0
+frequency=500
+
+[CHIP_VARIANT_B]
+voltage=3.3
+current=0.3
+max_power=1.2
+frequency=800
+
+[CHIP_VARIANT_C]
+voltage=1.5
+current=0.8
+max_power=1.5
+frequency=300
+
