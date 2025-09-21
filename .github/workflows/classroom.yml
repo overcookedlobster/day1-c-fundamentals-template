@@ -108,29 +108,11 @@ jobs:
           echo "- Power calculation: $power_passed/$power_total tests passed" >> $GITHUB_STEP_SUMMARY
 
       - name: Autograding Reporter
-        uses: education/autograding-command@v1
+        uses: education/autograding-grading-reporter@v1
+        env:
+          COMPILATION_RESULTS: "${{ steps.compilation.outputs.compilation_passed }}"
+          VOLTAGE_RESULTS: "${{ steps.voltage-tests.outputs.voltage_passed }}/${{ steps.voltage-tests.outputs.voltage_total }}"
+          POWER_RESULTS: "${{ steps.power-tests.outputs.power_passed }}/${{ steps.power-tests.outputs.power_total }}"
         with:
-          test-name: 'Compilation Check'
-          setup-command: 'make clean'
-          command: 'make all'
-          timeout: 10
-          max-score: 20
-
-      - name: Voltage Tests Reporter
-        uses: education/autograding-command@v1
-        with:
-          test-name: 'Voltage Validation Tests'
-          setup-command: ''
-          command: './tests/test_voltage'
-          timeout: 10
-          max-score: 40
-
-      - name: Power Tests Reporter
-        uses: education/autograding-command@v1
-        with:
-          test-name: 'Power Calculation Tests'
-          setup-command: ''
-          command: './tests/test_power'
-          timeout: 10
-          max-score: 40
+          runners: compilation,voltage-tests,power-tests
 
