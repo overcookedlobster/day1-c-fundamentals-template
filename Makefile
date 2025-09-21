@@ -49,7 +49,7 @@ VALIDATION_LIB = $(SRC_DIR)/validation_lib.c
 
 # Default target - builds all main programs and test executables
 all: $(VOLTAGE_CHECKER) $(POWER_CALCULATOR) $(SAFETY_VALIDATOR) $(TEST_VOLTAGE) $(TEST_POWER)
-	@echo "✓ All Day 1 programs and tests compiled successfully!"
+	@echo "✓ All Day 1 programs compiled successfully!"
 	@echo "Run 'make test' to verify your implementations."
 
 # Individual program targets
