@@ -19,23 +19,31 @@ ValidationResult validate_voltage(float voltage, float nominal, float tolerance_
 
     // TODO: Initialize the result structure with input values
     // Hint: Set measured_value, expected_value, and tolerance
-    result.measured_value = 0.0f;  // TODO: Set to voltage parameter
-    result.expected_value = 0.0f;  // TODO: Set to nominal parameter
-    result.tolerance = 0.0f;       // TODO: Set to tolerance_percent parameter
+    result.measured_value = voltage;        // Complete implementation for testing
+    result.expected_value = nominal;        // Complete implementation for testing
+    result.tolerance = tolerance_percent;   // Complete implementation for testing
 
     // TODO: Calculate acceptable voltage range
     // Hint: min_voltage = nominal * (1.0f - tolerance_percent / 100.0f)
     // Hint: max_voltage = nominal * (1.0f + tolerance_percent / 100.0f)
-    float min_voltage = 0.0f;  // TODO: Calculate minimum acceptable voltage
-    float max_voltage = 0.0f;  // TODO: Calculate maximum acceptable voltage
+    float min_voltage = nominal * (1.0f - tolerance_percent / 100.0f);  // Complete implementation
+    float max_voltage = nominal * (1.0f + tolerance_percent / 100.0f);  // Complete implementation
 
     // TODO: Check if voltage is within acceptable range
     // Hint: voltage should be >= min_voltage AND <= max_voltage
-    result.is_valid = false;  // TODO: Implement range check logic
+    result.is_valid = (voltage >= min_voltage && voltage <= max_voltage);  // Complete implementation
 
     // TODO: Generate appropriate status message
     // Hint: Use snprintf to create descriptive message based on is_valid
-    strcpy(result.status_message, "TODO: Implement status message");
+    if (result.is_valid) {
+        snprintf(result.status_message, sizeof(result.status_message),
+                "Voltage %.2fV is within acceptable range [%.2fV - %.2fV]",
+                voltage, min_voltage, max_voltage);
+    } else {
+        snprintf(result.status_message, sizeof(result.status_message),
+                "Voltage %.2fV is outside acceptable range [%.2fV - %.2fV]",
+                voltage, min_voltage, max_voltage);
+    }
 
     return result;
 }
@@ -44,14 +52,14 @@ ValidationResult validate_voltage(float voltage, float nominal, float tolerance_
 float calculate_power(float voltage, float current) {
     // TODO: Implement power calculation using Ohm's Law
     // Hint: Power (P) = Voltage (V) × Current (I)
-    return 0.0f;  // TODO: Replace with actual calculation
+    return voltage * current;  // Complete implementation for testing
 }
 
 // Check if power consumption is within acceptable limits
 bool is_power_acceptable(float power, float max_power) {
     // TODO: Implement power acceptability check
     // Hint: Return true if power is less than or equal to max_power
-    return false;  // TODO: Replace with actual logic
+    return power <= max_power;  // Complete implementation for testing
 }
 
 // Format validation results for display
