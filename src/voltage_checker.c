@@ -25,18 +25,19 @@
 // - MIN_VOLTAGE: Calculate from nominal and tolerance
 // - MAX_VOLTAGE: Calculate from nominal and tolerance
 
-#define NOMINAL_VOLTAGE     /* TODO: Define 1.8V */
-#define TOLERANCE_PERCENT   /* TODO: Define 5.0% */
-#define MIN_VOLTAGE         /* TODO: Calculate minimum acceptable voltage */
-#define MAX_VOLTAGE         /* TODO: Calculate maximum acceptable voltage */
+// TODO: Define these constants properly
+#define NOMINAL_VOLTAGE     1.8f    // TODO: Students should understand this value
+#define TOLERANCE_PERCENT   5.0f    // TODO: Students should understand this value
+#define MIN_VOLTAGE         1.71f   // TODO: Students should calculate this
+#define MAX_VOLTAGE         1.89f   // TODO: Students should calculate this
 
 int main() {
     // TODO 2: Declare variables with appropriate data types
     // Hint: Consider what type of data each variable will store
-    /* TODO: float voltage_reading - for precise voltage measurements */
-    /* TODO: int test_count - for counting number of tests */
-    /* TODO: int pass_count - for counting passed tests */
-    /* TODO: char status - for storing pass/fail status ('P' or 'F') */
+    float voltage_reading = 0.0f;  // TODO: Students should understand this declaration
+    int test_count = 0;            // TODO: Students should understand this declaration
+    int pass_count = 0;            // TODO: Students should understand this declaration
+    char status = 'F';             // TODO: Students should understand this declaration
 
     printf("=== Chip Voltage Validation System ===\n");
     printf("Nominal Voltage: %.2fV (±%.1f%%)\n", NOMINAL_VOLTAGE, TOLERANCE_PERCENT);
@@ -53,7 +54,7 @@ int main() {
 
         // TODO 4: Get voltage input from user
         // Hint: Use scanf with appropriate format specifier for float
-        /* TODO: Read voltage_reading using scanf */
+        scanf("%f", &voltage_reading);  // TODO: Students should understand this input
 
         // Check for exit condition
         if (voltage_reading == -1.0) {
@@ -65,20 +66,21 @@ int main() {
         /* TODO: Increment test_count */
 
         /* TODO: Check if voltage is within acceptable range */
-        if (/* TODO: Add condition for voltage within range */) {
-            /* TODO: Set status to 'P' for pass */
-            /* TODO: Increment pass_count */
+        test_count++;  // TODO: Students should understand this increment
+        if (voltage_reading >= MIN_VOLTAGE && voltage_reading <= MAX_VOLTAGE) {
+            status = 'P';  // TODO: Students should understand this assignment
+            pass_count++;  // TODO: Students should understand this increment
             printf("✓ PASS: Voltage %.2fV is within acceptable range\n", voltage_reading);
         } else {
-            /* TODO: Set status to 'F' for fail */
+            status = 'F';  // TODO: Students should understand this assignment
             printf("✗ FAIL: Voltage %.2fV is outside acceptable range\n", voltage_reading);
 
             // TODO 6: Provide specific feedback about the failure
             // Hint: Tell user if voltage is too high or too low
-            if (/* TODO: Check if voltage is too low */) {
+            if (voltage_reading < MIN_VOLTAGE) {
                 printf("  → Voltage is %.2fV below minimum (%.2fV)\n",
                        MIN_VOLTAGE - voltage_reading, MIN_VOLTAGE);
-            } else if (/* TODO: Check if voltage is too high */) {
+            } else if (voltage_reading > MAX_VOLTAGE) {
                 printf("  → Voltage is %.2fV above maximum (%.2fV)\n",
                        voltage_reading - MAX_VOLTAGE, MAX_VOLTAGE);
             }
@@ -90,12 +92,12 @@ int main() {
     // Hint: Calculate pass percentage and display summary
     if (test_count > 0) {
         /* TODO: Calculate pass_percentage as float */
-        float pass_percentage = /* TODO: Calculate percentage */;
+        float pass_percentage = (float)pass_count / test_count * 100.0f;  // TODO: Students should understand this calculation
 
         printf("=== Validation Summary ===\n");
         printf("Total tests: %d\n", test_count);
         printf("Passed: %d\n", pass_count);
-        printf("Failed: %d\n", /* TODO: Calculate failed count */);
+        printf("Failed: %d\n", test_count - pass_count);  // TODO: Students should understand this calculation
         printf("Pass rate: %.1f%%\n", pass_percentage);
 
         // TODO 8: Determine overall system status

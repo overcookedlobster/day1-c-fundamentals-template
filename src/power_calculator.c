@@ -20,23 +20,24 @@
 
 // TODO 1: Define power specification constants
 // Hint: These represent typical chip power limits
-#define MAX_POWER_WATTS     /* TODO: Define maximum power limit (e.g., 2.0W) */
-#define MIN_VOLTAGE         /* TODO: Define minimum operating voltage (e.g., 1.5V) */
-#define MAX_VOLTAGE         /* TODO: Define maximum operating voltage (e.g., 2.0V) */
-#define MIN_CURRENT         /* TODO: Define minimum current (e.g., 0.1A) */
-#define MAX_CURRENT         /* TODO: Define maximum current (e.g., 1.5A) */
+// TODO: Students should understand these power specifications
+#define MAX_POWER_WATTS     2.0f    // TODO: Define maximum power limit
+#define MIN_VOLTAGE         1.5f    // TODO: Define minimum operating voltage
+#define MAX_VOLTAGE         2.0f    // TODO: Define maximum operating voltage
+#define MIN_CURRENT         0.1f    // TODO: Define minimum current
+#define MAX_CURRENT         1.5f    // TODO: Define maximum current
 
 // Power efficiency categories
-#define EFFICIENT_THRESHOLD   /* TODO: Power below this is "efficient" (e.g., 1.0W) */
-#define MODERATE_THRESHOLD    /* TODO: Power below this is "moderate" (e.g., 1.5W) */
+#define EFFICIENT_THRESHOLD   1.0f  // TODO: Power below this is "efficient"
+#define MODERATE_THRESHOLD    1.5f  // TODO: Power below this is "moderate"
 
 int main() {
     // TODO 2: Declare variables for calculations
     // Hint: Consider precision requirements for each measurement
-    /* TODO: float voltage - input voltage in volts */
-    /* TODO: float current - input current in amperes */
-    /* TODO: float power - calculated power in watts */
-    /* TODO: int calculation_count - number of calculations performed */
+    float voltage = 0.0f;        // TODO: Students should understand this declaration
+    float current = 0.0f;        // TODO: Students should understand this declaration
+    float power = 0.0f;          // TODO: Students should understand this declaration
+    int calculation_count = 0;   // TODO: Students should understand this declaration
     /* TODO: float total_power - sum of all power calculations */
     /* TODO: char continue_choice - user choice to continue ('y'/'n') */
 

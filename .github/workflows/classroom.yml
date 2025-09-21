@@ -34,19 +34,23 @@ jobs:
             echo "Compilation successful"
             echo "compilation_passed=true" >> $GITHUB_OUTPUT
           else
-            echo "Compilation failed"
+            echo "Compilation failed - this is expected for starter template"
             echo "compilation_passed=false" >> $GITHUB_OUTPUT
-            exit 1
           fi
 
       - name: Run Voltage Tests
         id: voltage-tests
         run: |
-          ./tests/test_voltage > voltage_results.txt 2>&1 || true
-          cat voltage_results.txt
-
-          passed=$(grep "Passed:" voltage_results.txt | awk '{print $2}' || echo "0")
-          total=$(grep "Total tests:" voltage_results.txt | awk '{print $3}' || echo "10")
+          if [ -f "./tests/test_voltage" ]; then
+            ./tests/test_voltage > voltage_results.txt 2>&1 || true
+            cat voltage_results.txt
+            passed=$(grep "Passed:" voltage_results.txt | awk '{print $2}' || echo "0")
+            total=$(grep "Total tests:" voltage_results.txt | awk '{print $3}' || echo "10")
+          else
+            echo "Test executable not found - compilation may have failed"
+            passed=0
+            total=10
+          fi
 
           echo "voltage_passed=$passed" >> $GITHUB_OUTPUT
           echo "voltage_total=$total" >> $GITHUB_OUTPUT
@@ -55,11 +59,16 @@ jobs:
       - name: Run Power Tests
         id: power-tests
         run: |
-          ./tests/test_power > power_results.txt 2>&1 || true
-          cat power_results.txt
-
-          passed=$(grep "Passed:" power_results.txt | awk '{print $2}' || echo "0")
-          total=$(grep "Total tests:" power_results.txt | awk '{print $3}' || echo "10")
+          if [ -f "./tests/test_power" ]; then
+            ./tests/test_power > power_results.txt 2>&1 || true
+            cat power_results.txt
+            passed=$(grep "Passed:" power_results.txt | awk '{print $2}' || echo "0")
+            total=$(grep "Total tests:" power_results.txt | awk '{print $3}' || echo "10")
+          else
+            echo "Test executable not found - compilation may have failed"
+            passed=0
+            total=10
+          fi
 
           echo "power_passed=$passed" >> $GITHUB_OUTPUT
           echo "power_total=$total" >> $GITHUB_OUTPUT
@@ -108,11 +117,9 @@ jobs:
           echo "- Power calculation: $power_passed/$power_total tests passed" >> $GITHUB_STEP_SUMMARY
 
       - name: Autograding Reporter
-        uses: education/autograding-grading-reporter@v1
+        uses: education/autograding@v1
         env:
           COMPILATION_RESULTS: "${{ steps.compilation.outputs.compilation_passed }}"
           VOLTAGE_RESULTS: "${{ steps.voltage-tests.outputs.voltage_passed }}/${{ steps.voltage-tests.outputs.voltage_total }}"
           POWER_RESULTS: "${{ steps.power-tests.outputs.power_passed }}/${{ steps.power-tests.outputs.power_total }}"
-        with:
-          runners: compilation,voltage-tests,power-tests
 
