@@ -47,6 +47,8 @@ int main() {
     printf("Current Range: %.1fA - %.1fA\n\n", MIN_CURRENT, MAX_CURRENT);
 
     /* TODO: Initialize counters and accumulators */
+    calculation_count = 0;
+    total_power = 0.0f;
 
     do {
         printf("--- Power Calculation #%d ---\n", calculation_count + 1);
@@ -55,36 +57,36 @@ int main() {
         // Hint: Use a loop to ensure valid input
         do {
             printf("Enter voltage (V): ");
-            /* TODO: Read voltage using scanf */
+            scanf("%f", &voltage);
 
             // TODO 4: Validate voltage range
-            if (/* TODO: Check if voltage is below minimum */) {
+            if (voltage < MIN_VOLTAGE) {
                 printf("Error: Voltage %.2fV is below minimum (%.1fV)\n", voltage, MIN_VOLTAGE);
-            } else if (/* TODO: Check if voltage is above maximum */) {
+            } else if (voltage > MAX_VOLTAGE) {
                 printf("Error: Voltage %.2fV is above maximum (%.1fV)\n", voltage, MAX_VOLTAGE);
             }
-        } while (/* TODO: Continue loop while voltage is out of range */);
+        } while (voltage < MIN_VOLTAGE || voltage > MAX_VOLTAGE);
 
         // TODO 5: Get current input with validation
         // Hint: Similar validation pattern as voltage
         do {
             printf("Enter current (A): ");
-            /* TODO: Read current using scanf */
+            scanf("%f", &current);
 
             // TODO 6: Validate current range
-            if (/* TODO: Check if current is below minimum */) {
+            if (current < MIN_CURRENT) {
                 printf("Error: Current %.2fA is below minimum (%.1fA)\n", current, MIN_CURRENT);
-            } else if (/* TODO: Check if current is above maximum */) {
+            } else if (current > MAX_CURRENT) {
                 printf("Error: Current %.2fA is above maximum (%.1fA)\n", current, MAX_CURRENT);
             }
-        } while (/* TODO: Continue loop while current is out of range */);
+        } while (current < MIN_CURRENT || current > MAX_CURRENT);
 
         // TODO 7: Calculate power consumption
-        /* TODO: Calculate power = voltage × current */
+        power = voltage * current;
 
         // TODO 8: Update statistics
-        /* TODO: Increment calculation_count */
-        /* TODO: Add power to total_power */
+        calculation_count++;
+        total_power += power;
 
         // TODO 9: Display calculation results
         printf("\n--- Results ---\n");
@@ -94,42 +96,42 @@ int main() {
 
         // TODO 10: Analyze power consumption level
         // Hint: Categorize power as efficient, moderate, or high
-        if (/* TODO: Check if power is below efficient threshold */) {
+        if (power <= EFFICIENT_THRESHOLD) {
             printf("Status: ✓ EFFICIENT - Low power consumption\n");
-        } else if (/* TODO: Check if power is below moderate threshold */) {
+        } else if (power <= MODERATE_THRESHOLD) {
             printf("Status: ⚠ MODERATE - Acceptable power consumption\n");
-        } else if (/* TODO: Check if power is below maximum */) {
+        } else if (power <= MAX_POWER_WATTS) {
             printf("Status: ⚠ HIGH - Near maximum power limit\n");
         } else {
             printf("Status: ✗ EXCESSIVE - Exceeds power limit!\n");
         }
 
         // TODO 11: Check against absolute power limit
-        if (/* TODO: Check if power exceeds maximum */) {
+        if (power > MAX_POWER_WATTS) {
             printf("WARNING: Power %.3fW exceeds limit of %.2fW!\n", power, MAX_POWER_WATTS);
             printf("Chip may overheat or damage power supply.\n");
         }
 
         // TODO 12: Calculate power density (power per volt)
         // Hint: This helps understand efficiency at different voltages
-        float power_density = /* TODO: Calculate power / voltage */;
+        float power_density = power / voltage;
         printf("Power density: %.3fW/V\n", power_density);
 
         // TODO 13: Ask user if they want to continue
         printf("\nCalculate another power reading? (y/n): ");
-        /* TODO: Read continue_choice using scanf with %c format */
+        scanf(" %c", &continue_choice);
 
         // Clear input buffer (important for character input)
         while (getchar() != '\n');
 
         printf("\n");
 
-    } while (/* TODO: Continue while user enters 'y' or 'Y' */);
+    } while (continue_choice == 'y' || continue_choice == 'Y');
 
     // TODO 14: Display final statistics
     if (calculation_count > 0) {
         /* TODO: Calculate average_power = total_power / calculation_count */
-        float average_power = /* TODO: Calculate average */;
+        float average_power = total_power / calculation_count;
 
         printf("=== Power Analysis Summary ===\n");
         printf("Total calculations: %d\n", calculation_count);
@@ -150,7 +152,7 @@ int main() {
         }
 
         // TODO 16: Calculate power budget utilization
-        float budget_utilization = /* TODO: Calculate (average_power / MAX_POWER_WATTS) * 100 */;
+        float budget_utilization = (average_power / MAX_POWER_WATTS) * 100;
         printf("Power budget utilization: %.1f%%\n", budget_utilization);
 
     } else {
