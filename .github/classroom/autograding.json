@@ -12,7 +12,7 @@
     },
     {
       "name": "Voltage Validation Tests",
-      "setup": "make test",
+      "setup": "make clean && make all && make test",
       "run": "./tests/test_voltage",
       "input": "",
       "output": "✓ ALL TESTS PASSED!",
