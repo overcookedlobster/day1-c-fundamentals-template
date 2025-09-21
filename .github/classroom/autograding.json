@@ -5,14 +5,14 @@
       "setup": "sudo apt-get update && sudo apt-get install -y gcc make libc6-dev",
       "run": "make clean && make all",
       "input": "",
-      "output": "",
+      "output": "✓ All Day 1 programs compiled successfully!",
       "comparison": "included",
       "timeout": 10,
       "points": 20
     },
     {
       "name": "Voltage Validation Tests",
-      "setup": "",
+      "setup": "make test",
       "run": "./tests/test_voltage",
       "input": "",
       "output": "✓ ALL TESTS PASSED!",
