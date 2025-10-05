@@ -174,7 +174,7 @@ day1-c-fundamentals-[username]/
 ├── scripts/
 │   ├── run_tests.sh           # Automated testing script
 │   └── compilation_demo.sh     # Compilation demonstration
-└── reference-solution/         # Complete reference implementations
+└── reference-solution/         # Complete reference implementations (provided separately)
     ├── README.md
     ├── Makefile
     └── src/

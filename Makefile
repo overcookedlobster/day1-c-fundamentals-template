@@ -13,12 +13,12 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -Iinclude
 DEBUG_FLAGS = -g -DDEBUG -O0
 RELEASE_FLAGS = -O2 -DNDEBUG
+MODE_FLAGS = $(DEBUG_FLAGS)  # Default to debug mode
 
 # Directories
 SRC_DIR = src
 INCLUDE_DIR = include
 TEST_DIR = tests
-BUILD_DIR = build
 DOCS_DIR = docs
 
 # Source Files (TODO: Students will complete these)
@@ -44,27 +44,27 @@ TEST_POWER = $(TEST_DIR)/test_power
 # Validation library
 VALIDATION_LIB = $(SRC_DIR)/validation_lib.c
 
-# Default target - builds all main programs and test executables
-all: $(VOLTAGE_CHECKER) $(POWER_CALCULATOR) $(SAFETY_VALIDATOR) $(TEST_VOLTAGE) $(TEST_POWER)
+# Default target - builds all programs and test executables
+all: $(VOLTAGE_CHECKER) $(POWER_CALCULATOR) $(SAFETY_VALIDATOR) $(MULTI_VALIDATOR) $(BATCH_PROCESSOR) $(TEST_VOLTAGE) $(TEST_POWER)
 	@echo "✓ All Day 1 programs compiled successfully!"
 	@echo "Run 'make test' to verify your implementations."
 
 # Individual program targets
 $(VOLTAGE_CHECKER): $(SRC_DIR)/voltage_checker.c
 	@echo "Compiling voltage checker..."
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) -o $@ $<
+	$(CC) $(CFLAGS) $(MODE_FLAGS) -o $@ $< -lm
 
 $(POWER_CALCULATOR): $(SRC_DIR)/power_calculator.c
 	@echo "Compiling power calculator..."
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) -o $@ $<
+	$(CC) $(CFLAGS) $(MODE_FLAGS) -o $@ $< -lm
 
 $(DEBUG_PRACTICE): $(SRC_DIR)/debug_practice.c
 	@echo "Compiling debug practice (may have intentional errors)..."
-	-$(CC) $(CFLAGS) $(DEBUG_FLAGS) -o $@ $<
+	-$(CC) $(CFLAGS) $(MODE_FLAGS) -o $@ $< -lm
 
 $(SAFETY_VALIDATOR): $(SRC_DIR)/safety_validator.c
 	@echo "Compiling safety validator..."
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) -o $@ $<
+	$(CC) $(CFLAGS) $(MODE_FLAGS) -o $@ $< -lm
 
 # Homework targets
 homework: $(MULTI_VALIDATOR) $(BATCH_PROCESSOR)
@@ -72,19 +72,19 @@ homework: $(MULTI_VALIDATOR) $(BATCH_PROCESSOR)
 
 $(MULTI_VALIDATOR): $(SRC_DIR)/multi_validator.c
 	@echo "Compiling multi-parameter validator..."
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) -o $@ $<
+	$(CC) $(CFLAGS) $(MODE_FLAGS) -o $@ $< -lm
 
 $(BATCH_PROCESSOR): $(SRC_DIR)/batch_processor.c
 	@echo "Compiling batch processor..."
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) -o $@ $<
+	$(CC) $(CFLAGS) $(MODE_FLAGS) -o $@ $< -lm
 
 # Debug builds (Task 3: GCC Compilation Mastery)
-debug: CFLAGS += $(DEBUG_FLAGS)
+debug: MODE_FLAGS = $(DEBUG_FLAGS)
 debug: all
 	@echo "✓ Debug builds completed with -g -O0 flags"
 
 # Release builds (optimized)
-release: CFLAGS += $(RELEASE_FLAGS)
+release: MODE_FLAGS = $(RELEASE_FLAGS)
 release: all
 	@echo "✓ Release builds completed with -O2 optimization"
 
@@ -102,10 +102,10 @@ test: $(TEST_VOLTAGE) $(TEST_POWER)
 	@echo "✓ All tests completed"
 
 $(TEST_VOLTAGE): $(TEST_DIR)/test_voltage.c $(VALIDATION_LIB)
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) -o $@ $< $(VALIDATION_LIB) -lm
+	$(CC) $(CFLAGS) $(MODE_FLAGS) -o $@ $< $(VALIDATION_LIB) -lm
 
 $(TEST_POWER): $(TEST_DIR)/test_power.c $(VALIDATION_LIB)
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) -o $@ $< $(VALIDATION_LIB) -lm
+	$(CC) $(CFLAGS) $(MODE_FLAGS) -o $@ $< $(VALIDATION_LIB) -lm
 
 # Code quality checks
 style-check:
@@ -133,18 +133,13 @@ clean:
 	rm -f $(MULTI_VALIDATOR) $(BATCH_PROCESSOR)
 	rm -f *.o *.out
 	rm -f $(TEST_VOLTAGE) $(TEST_POWER)
-	rm -rf $(BUILD_DIR)
 	@echo "✓ Clean completed"
-
-# Create build directory
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
 
 # Help target
 help:
 	@echo "Available targets:"
-	@echo "  all           - Build all main programs (default)"
-	@echo "  homework      - Build homework programs"
+	@echo "  all           - Build all programs including homework (default)"
+	@echo "  homework      - Build homework programs only"
 	@echo "  debug         - Build with debug flags (-g -O0)"
 	@echo "  release       - Build with optimization (-O2)"
 	@echo "  advanced      - Demonstrate advanced compilation modes"
@@ -172,24 +167,17 @@ show-flags:
 	@echo "  DEBUG_FLAGS = $(DEBUG_FLAGS)"
 	@echo "  RELEASE_FLAGS = $(RELEASE_FLAGS)"
 
-# Demonstrate different compilation modes
-demo-compilation:
-	@echo "=== Compilation Demonstration ==="
-	@echo "1. Debug compilation:"
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) -v -c $(SRC_DIR)/voltage_checker.c -o /tmp/debug.o 2>&1 | head -5
-	@echo ""
-	@echo "2. Release compilation:"
-	$(CC) $(CFLAGS) $(RELEASE_FLAGS) -v -c $(SRC_DIR)/voltage_checker.c -o /tmp/release.o 2>&1 | head -5
-	@echo ""
-	@rm -f /tmp/debug.o /tmp/release.o
-
 # File size comparison
-compare-builds: debug release
+compare-builds:
 	@echo "=== Build Size Comparison ==="
-	@ls -lh $(VOLTAGE_CHECKER) 2>/dev/null | awk '{print "Debug build:   " $$5 " " $$9}' || echo "Debug build not found"
+	@make clean > /dev/null 2>&1
+	@make debug > /dev/null 2>&1
+	@cp $(VOLTAGE_CHECKER) $(VOLTAGE_CHECKER)_debug
 	@make clean > /dev/null 2>&1
 	@make release > /dev/null 2>&1
-	@ls -lh $(VOLTAGE_CHECKER) 2>/dev/null | awk '{print "Release build: " $$5 " " $$9}' || echo "Release build not found"
+	@cp $(VOLTAGE_CHECKER) $(VOLTAGE_CHECKER)_release
+	@ls -lh $(VOLTAGE_CHECKER)_debug 2>/dev/null | awk '{print "Debug build:   " $$5 " " $$9}' || echo "Debug build not found"
+	@ls -lh $(VOLTAGE_CHECKER)_release 2>/dev/null | awk '{print "Release build: " $$5 " " $$9}' || echo "Release build not found"
 
-.PHONY: show-flags demo-compilation compare-builds
+.PHONY: show-flags compare-builds
 

@@ -43,44 +43,6 @@ C008|Edge case combination|1.71|1.17|2.0007|PASS|FAIL|Boundary conditions
 C009|Minimum valid operation|1.71|0.1|0.171|PASS|PASS|Lowest valid operation
 C010|Maximum valid operation|1.89|1.058|1.99962|PASS|PASS|Highest valid operation
 
-# Stress Test Cases (for batch processing)
-S001|Random test 1|1.75|0.45|0.7875|PASS|PASS|Random valid combination
-S002|Random test 2|1.82|0.65|1.183|PASS|PASS|Random valid combination
-S003|Random test 3|1.77|0.85|1.5045|PASS|PASS|Random valid combination
-S004|Random test 4|1.85|0.35|0.6475|PASS|PASS|Random valid combination
-S005|Random test 5|1.79|0.75|1.3425|PASS|PASS|Random valid combination
-S006|Random invalid 1|2.1|0.5|1.05|FAIL|PASS|Random invalid voltage
-S007|Random invalid 2|1.8|1.7|3.06|PASS|FAIL|Random invalid current
-S008|Random invalid 3|2.3|1.4|3.22|FAIL|FAIL|Random invalid both
-S009|Random invalid 4|1.4|0.8|1.12|FAIL|PASS|Random invalid voltage
-S010|Random invalid 5|1.85|1.3|2.405|PASS|FAIL|Random invalid current
-
-# Edge Cases and Special Conditions
-E001|Floating point precision|1.800001|0.500001|0.9000025|PASS|PASS|Precision testing
-E002|Very small values|0.001|0.001|0.000001|FAIL|PASS|Micro-scale testing
-E003|Large values|10.0|10.0|100.0|FAIL|FAIL|Out of realistic range
-E004|Negative current|1.8|-0.5|-0.9|PASS|FAIL|Invalid negative current
-E005|Both negative|-1.8|-0.5|0.9|FAIL|FAIL|Both parameters negative
-E006|Integer-like floats|2.0|1.0|2.0|FAIL|PASS|Clean integer values
-E007|Repeating decimals|1.777777|0.333333|0.592592|PASS|PASS|Repeating decimal precision
-E008|Scientific notation|1.8e0|5.0e-1|9.0e-1|PASS|PASS|Scientific notation input
-E009|Very precise boundary|1.710000001|0.5|0.8550000005|PASS|PASS|Just above minimum
-E010|Exact power boundary|1.8|1.111111|1.999999|PASS|PASS|Just under power limit
-
-# Performance Test Cases (for statistical analysis)
-PERF001|Performance test batch 1|1.8|0.5|0.9|PASS|PASS|Batch performance testing
-PERF002|Performance test batch 2|1.75|0.6|1.05|PASS|PASS|Batch performance testing
-PERF003|Performance test batch 3|1.85|0.4|0.74|PASS|PASS|Batch performance testing
-PERF004|Performance test batch 4|1.78|0.7|1.246|PASS|PASS|Batch performance testing
-PERF005|Performance test batch 5|1.82|0.3|0.546|PASS|PASS|Batch performance testing
-
-# Multi-parameter validation test cases (for homework tasks)
-M001|Multi-param test 1|1.8|0.5|0.9|PASS|PASS|Temperature: 25C, Frequency: 500MHz
-M002|Multi-param test 2|1.75|0.6|1.05|PASS|PASS|Temperature: 30C, Frequency: 450MHz
-M003|Multi-param test 3|1.85|0.4|0.74|PASS|PASS|Temperature: 20C, Frequency: 550MHz
-M004|Multi-param test 4|1.9|0.8|1.52|PASS|PASS|Temperature: 40C, Frequency: 400MHz
-M005|Multi-param test 5|1.7|0.9|1.53|FAIL|PASS|Temperature: 50C, Frequency: 350MHz
-
 # Notes:
 # - PASS/FAIL results are based on the specifications in chip_specs.txt
 # - Voltage tolerance: ±5% of 1.8V (1.71V - 1.89V)

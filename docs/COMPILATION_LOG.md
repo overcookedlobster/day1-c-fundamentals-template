@@ -298,7 +298,7 @@ The compilation process is fundamental to C development and understanding these 
 
 ---
 
-**Generated**: $(date)
-**Compiler Version**: $(gcc --version | head -n1)
-**System**: $(uname -a)
+**Generated**: [Insert Date]
+**Compiler Version**: [Insert Compiler Version]
+**System**: [Insert System Info]
 

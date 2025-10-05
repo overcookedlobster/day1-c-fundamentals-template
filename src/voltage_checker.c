@@ -25,11 +25,11 @@
 // - MIN_VOLTAGE: Calculate from nominal and tolerance
 // - MAX_VOLTAGE: Calculate from nominal and tolerance
 
-// TODO: Define these constants properly
-#define NOMINAL_VOLTAGE     1.8f    // TODO: Students should understand this value
-#define TOLERANCE_PERCENT   5.0f    // TODO: Students should understand this value
-#define MIN_VOLTAGE         1.71f   // TODO: Students should calculate this
-#define MAX_VOLTAGE         1.89f   // TODO: Students should calculate this
+// Define voltage specification constants
+#define NOMINAL_VOLTAGE     1.8f
+#define TOLERANCE_PERCENT   5.0f
+#define MIN_VOLTAGE         1.71f
+#define MAX_VOLTAGE         1.89f
 
 int main() {
     // TODO 2: Declare variables with appropriate data types

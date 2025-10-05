@@ -379,7 +379,7 @@ See `config/chip_specs.txt` and `config/test_cases.txt` for complete configurati
 ---
 
 **Document Version**: 1.0
-**Last Updated**: $(date)
+**Last Updated**: [Insert Date]
 **Approved By**: Course Instructor
 **Next Review**: End of semester
 
