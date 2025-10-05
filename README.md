@@ -1,359 +1,181 @@
 # Day 1: C Fundamentals and Compilation Lab
-## Chip Parameter Validation System
 
-###  Learning Objectives
-By the end of this assignment, you will be able to:
-1. **Understand C syntax and basic data types** for validation contexts (int, float, char, double)
-2. **Write programs with variables and operators** for chip parameter testing
-3. **Use printf/scanf** for validation input/output operations
-4. **Compile programs with GCC** using validation-appropriate flags (-Wall, -g, -O2, -std=c11)
-5. **Create validation calculations** for chip parameters (voltage, current, power)
-6. **Handle basic compilation errors** and debugging techniques
+## Overview
 
-### ⏰ Time Allocation
-- **In-Class Lab:** 3.5 hours (210 minutes)
-- **Homework Extension:** 2 hours (120 minutes)
-- **Total:** 5.5 hours
+Welcome to the Day 1 lab for C Fundamentals! This assignment introduces core C programming concepts through a practical chip validation system. You'll implement voltage and power validation functions, learn compilation with GCC, and work with a test suite to ensure correctness.
 
----
+**Learning Objectives:**
+- Understand C compilation process and Makefile usage
+- Implement basic input validation and error handling
+- Work with floating-point arithmetic and precision
+- Use header files, structs, and macros effectively
+- Write and run unit tests for C programs
+- Debug compilation errors and warnings
 
-##  Assignment Overview
+**Total Points:** 100 (Autograded via GitHub Actions)
+- Compilation: 20 pts (All programs build cleanly)
+- Voltage Tests: 40 pts (10 tests, 4 pts each)
+- Power Tests: 40 pts (10 tests, 4 pts each)
 
-You will build a **Chip Parameter Validation System** that demonstrates fundamental C programming concepts in the context of post-silicon validation engineering. This assignment follows directly from Day 1 slides covering C syntax, data types, compilation, and basic validation scenarios.
-
-### Real-World Context
-Post-silicon validation engineers need to verify that manufactured chips operate within specified parameters. Your validation system will check voltage levels, calculate power consumption, and ensure chips meet operational requirements - exactly the kind of work you'll do in industry.
-
----
-
-##  In-Class Tasks (3.5 hours)
-
-### Task 1: Data Types for Validation (45 minutes)
-**Objective:** Implement a voltage checker using appropriate C data types
-
-**What you'll learn:**
-- Choosing correct data types for different validation scenarios
-- Variable declarations and basic arithmetic operators
-- Input validation and range checking
-
-**Implementation:**
-- Complete `src/voltage_checker.c`
-- Use `float` for voltage values (precision needed)
-- Use `int` for pass/fail counts
-- Use `char` for status flags
-- Implement voltage range checking (1.8V ± 5%)
-
-**Expected Output:**
-```
-Enter voltage reading: 1.85
-✓ PASS: Voltage 1.85V is within acceptable range (1.71V - 1.89V)
-```
-
-### Task 2: Input/Output for Chip Testing (45 minutes)
-**Objective:** Create a power consumption calculator with user interaction
-
-**What you'll learn:**
-- Using printf/scanf for user input and formatted output
-- Mathematical operations for engineering calculations
-- Error handling for invalid inputs
-
-**Implementation:**
-- Complete `src/power_calculator.c`
-- Calculate power = voltage × current
-- Handle multiple chip configurations
-- Implement input validation and error messages
-
-**Expected Output:**
-```
-=== Power Consumption Calculator ===
-Enter voltage (V): 1.8
-Enter current (A): 0.5
-Power consumption: 0.90W
-Status: Within normal operating range
-```
-
-### Task 3: GCC Compilation Mastery (90 minutes)
-**Objective:** Master GCC compilation with validation-appropriate flags
-
-**What you'll learn:**
-- Using GCC flags: -Wall, -g, -O2, -std=c11
-- Understanding compilation errors and warnings
-- Creating and using Makefiles for automated builds
-- Debug vs release builds
-
-**Implementation:**
-- Complete the provided Makefile
-- Fix intentional compilation errors in `src/debug_practice.c`
-- Practice compiling with different optimization levels
-- Document compilation process in `docs/COMPILATION_LOG.md`
-
-**Commands to master:**
-```bash
-gcc -Wall -g -std=c11 -o voltage_checker src/voltage_checker.c
-make all
-make clean
-make debug
-make release
-```
-
-### Task 4: Memory Safety Basics (35 minutes)
-**Objective:** Implement basic memory safety and error handling
-
-**What you'll learn:**
-- Variable initialization best practices
-- Input validation techniques
-- Basic error handling patterns
-
-**Implementation:**
-- Complete `src/safety_validator.c`
-- Add comprehensive input validation
-- Implement graceful error recovery
-- Test with invalid inputs
-
----
-
-##  Homework Extensions (2 hours)
-
-### Task 5: Enhanced Validation Suite (60 minutes)
-**Objective:** Create a comprehensive multi-parameter validation system
-
-**Requirements:**
-- Read chip specifications from `config/chip_specs.txt`
-- Validate voltage, current, temperature, and frequency
-- Generate detailed validation reports
-- Support multiple chip configurations
-
-**Deliverables:**
-- Enhanced `src/multi_validator.c`
-- Updated configuration file format
-- Validation report generation
-
-### Task 6: Batch Processing Mode (60 minutes)
-**Objective:** Add batch processing capabilities for automated testing
-
-**Requirements:**
-- Process multiple test cases from file
-- Generate summary statistics
-- Export results in CSV format
-- Add command-line argument processing
-
-**Deliverables:**
-- Batch processing functionality
-- Test case file format documentation
-- Results export system
-
----
-
-##  Repository Structure
+## Repository Structure
 
 ```
-day1-c-fundamentals-[username]/
-├── README.md                    # This file - assignment instructions
-├── Makefile                     # Build configuration with proper flags
-├── .gitignore                   # C development gitignore
-├── src/
-│   ├── voltage_checker.c        # Task 1: Voltage validation (TEMPLATE)
-│   ├── power_calculator.c       # Task 2: Power calculations (TEMPLATE)
-│   ├── debug_practice.c         # Task 3: Compilation practice (BUGGY)
-│   ├── safety_validator.c       # Task 4: Memory safety (TEMPLATE)
-│   ├── validation_lib.c         # Common validation library
-│   ├── multi_validator.c        # Task 5: Multi-parameter validation (HOMEWORK)
-│   └── batch_processor.c        # Task 6: Batch processing (HOMEWORK)
+day1-c-fundamentals/
 ├── include/
-│   └── validation.h             # Common validation functions
-├── config/
-│   ├── chip_specs.txt          # Sample chip configurations
-│   └── test_cases.txt          # Test case definitions
+│   └── validation.h      # Shared headers, constants, and prototypes
+├── src/
+│   ├── validation_lib.c  # Shared validation functions (implement these!)
+│   ├── voltage_checker.c # Task 1: Basic voltage validation
+│   ├── power_calculator.c # Task 2: Power calculation and efficiency
+│   ├── safety_validator.c # Task 3: Combined safety checks
+│   ├── multi_validator.c # Extension: Multi-parameter validation
+│   └── batch_processor.c # Extension: Batch processing
 ├── tests/
-│   ├── test_voltage.c          # Unit tests for voltage validation
-│   └── test_power.c            # Unit tests for power calculations
-├── docs/
-│   ├── COMPILATION_LOG.md      # Task 3: Compilation documentation
-│   ├── TESTING_GUIDE.md        # Testing instructions
-│   └── VALIDATION_SPECS.md     # Chip validation requirements
-├── scripts/
-│   ├── run_tests.sh           # Automated testing script
-│   └── compilation_demo.sh     # Compilation demonstration
-└── reference-solution/         # Complete reference implementations (provided separately)
-    ├── README.md
-    ├── Makefile
-    └── src/
+│   ├── test_voltage.c    # Unit tests for voltage functions
+│   └── test_power.c      # Unit tests for power functions
+├── config/
+│   └── chip_specs.txt    # Configuration file for multi-validator
+├── Makefile              # Build system (do not modify unless instructed)
+└── README.md             # This file
 ```
 
----
+## Setup Instructions
 
-##  Testing Your Work
+### Linux/macOS (Recommended)
+1. **Clone the Repository:**
+   ```
+   git clone <your-github-classroom-repo-url>
+   cd day1-c-fundamentals
+   ```
 
-### Automated Testing
-Your repository includes automated tests that run on every commit:
+2. **Install Dependencies:**
+   - Ensure GCC and Make are installed (usually pre-installed on Linux/macOS).
+   - On Ubuntu/Debian: `sudo apt update && sudo apt install build-essential`
+   - On macOS: Install Xcode Command Line Tools via `xcode-select --install`
 
-```bash
-# Run all tests locally
-make test
+3. **Build and Test:**
+   ```
+   make clean
+   make all    # Compiles all programs
+   make test   # Runs unit tests (should pass 10/10 for voltage + power)
+   ```
 
-# Run specific test suites
-./tests/test_voltage
-./tests/test_power
+### Windows Setup
+Windows requires additional setup since the project uses Unix-style tools (GCC, Make). We recommend **Windows Subsystem for Linux (WSL)** for the best experience, as it matches the GitHub Actions CI environment (Ubuntu 24.04).
 
-# Check code style
-make style-check
+#### Option 1: Windows Subsystem for Linux (WSL) – Easiest and Recommended
+WSL provides a full Linux environment inside Windows.
+
+1. **Install WSL:**
+   - Open PowerShell as Administrator and run: `wsl --install`
+   - This installs WSL 2 with Ubuntu (reboot if prompted).
+   - Launch Ubuntu from the Start menu and set up a username/password.
+
+2. **Install Dependencies in WSL:**
+   - Open the Ubuntu terminal.
+   - Update packages: `sudo apt update`
+   - Install build tools: `sudo apt install build-essential git`
+
+3. **Clone and Work in WSL:**
+   - In Ubuntu terminal: `git clone <your-repo-url>`
+   - `cd day1-c-fundamentals`
+   - Follow Linux instructions above: `make clean && make all && make test`
+
+4. **Access Files in Windows:**
+   - Your project files are in `\\wsl$\Ubuntu\home\<username>\day1-c-fundamentals`
+   - Edit in VS Code (install "Remote - WSL" extension) or Windows Explorer.
+
+**Pros:** Identical to CI; full Linux tools. **Cons:** Slight learning curve if new to Linux.
+
+#### Option 2: Native Windows with MinGW-w64 (No WSL)
+Use MinGW for GCC/Make on Windows.
+
+1. **Install MinGW-w64:**
+   - Download from [MSYS2](https://www.msys2.org/) (recommended).
+   - Install MSYS2, then open MSYS2 terminal and run:
+     ```
+     pacman -Syu
+     pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-make mingw-w64-x86_64-git
+     ```
+   - Add MinGW bin to PATH: `C:\msys64\mingw64\bin`
+
+2. **Install VS Code (Optional but Recommended):**
+   - Download from [code.visualstudio.com](https://code.visualstudio.com/).
+   - Install extensions: "C/C++" (Microsoft), "Makefile Tools".
+
+3. **Clone and Build:**
+   - Open MSYS2 MinGW terminal (not MSYS2 base).
+   - `git clone <your-repo-url>`
+   - `cd day1-c-fundamentals`
+   - `mingw32-make clean && mingw32-make all && mingw32-make test`
+     - Note: Use `mingw32-make` instead of `make`.
+
+**Pros:** Native Windows. **Cons:** Potential path issues; less identical to CI.
+
+#### Option 3: VS Code with Dev Containers (Advanced)
+- Install VS Code + "Dev Containers" extension.
+- Use a Dockerfile for Ubuntu + GCC (create `.devcontainer/devcontainer.json` if needed).
+- Reopen in container: Automatically sets up Linux env.
+
+**Troubleshooting Windows:**
+- **Path Issues:** Use forward slashes (`/`) in code; avoid spaces in paths.
+- **Compilation Errors:** Ensure `-std=c11` and `-lm` (math lib).
+- **Git Bash:** If using Git for Windows, it has basic Make but install MinGW for full GCC.
+- **Test Failures:** Run tests in the exact env (WSL preferred) to match CI.
+
+## Building and Testing
+
+- **Clean Build:** `make clean` (removes binaries).
+- **Compile All:** `make all` (builds executables: voltage_checker, power_calculator, etc.).
+- **Run Tests:** `make test` (compiles and runs voltage/power tests; expect 100% pass).
+- **Run Programs:**
+  ```
+  ./voltage_checker     # Interactive voltage input
+  ./power_calculator    # Voltage + current to power
+  ./multi_validator     # Multi-param with config file
+  ```
+- **Debug:** Use `gdb ./voltage_checker` or VS Code debugger. Enable `DEBUG_PRINT` macros.
+
+**Expected Test Output:**
+```
+Voltage tests: 10/10 passed
+Power tests: 10/10 passed
+✓ All tests completed
 ```
 
-### Manual Testing
-Test your programs with various inputs:
+## Tasks to Complete
 
-```bash
-# Test voltage checker with different values
-echo "1.85" | ./voltage_checker
-echo "2.0" | ./voltage_checker    # Should fail
-echo "1.5" | ./voltage_checker    # Should fail
+### In-Class (Basics – 60 pts)
+1. **voltage_checker.c:** Read voltage, validate against 1.8V ±5%, print PASS/FAIL with colors.
+2. **power_calculator.c:** Read V/I, compute power, check vs. 2W limit, categorize efficiency.
+3. **validation_lib.c:** Implement `validate_voltage`, `calculate_power`, `is_power_acceptable`, `format_validation_result`, and stats functions.
 
-# Test power calculator
-echo -e "1.8\n0.5" | ./power_calculator
-```
+### Homework (Extensions – 40 pts)
+4. **safety_validator.c:** Combined checks for voltage, current, power, temperature.
+5. **multi_validator.c:** Parse `config/chip_specs.txt`, support 1.8V/3.3V variants, multi-param validation with reports.
+6. **batch_processor.c:** Batch mode with file input and stats summary.
 
----
+**Do Not:**
+- Modify `Makefile` or test files (they're autograder-provided).
+- Change basic `ValidationResult` struct in `validation.h` (breaks tests).
+- Forget to handle input errors (e.g., non-numeric input).
 
-##  Assessment Criteria (140 points total)
+## Assessment and Submission
 
-### Code Functionality (55 points)
-- **Task 1 - Voltage Checker (15 pts):** Correct data types, range validation
-- **Task 2 - Power Calculator (15 pts):** Accurate calculations, input handling
-- **Task 3 - Compilation (15 pts):** Successful compilation with all flags
-- **Task 4 - Safety Validator (10 pts):** Proper error handling and validation
+- **Autograding:** Every push to `main` triggers GitHub Actions (Actions tab). Score based on compilation + tests.
+- **Full Score (100/100):** All programs compile; tests pass 100%.
+- **Submission:** Commit changes (`git add . && git commit -m "Implemented voltage validation"`) and push (`git push origin main`). No separate submission—CI handles grading.
+- **Partial Credit:** Tests give points per passing case; fix incrementally.
 
-### Code Quality (30 points)
-- **Style and Formatting (10 pts):** Consistent indentation, naming conventions
-- **Comments and Documentation (10 pts):** Clear, helpful comments
-- **Code Organization (10 pts):** Logical structure, proper use of functions
+**Timeline:** Complete in-class by end of lab; homework by [deadline]. Ask questions on [course forum]!
 
-### Compilation and Testing (25 points)
-- **Makefile Usage (10 pts):** Proper build configuration
-- **Error Handling (10 pts):** Graceful handling of invalid inputs
-- **Test Passage (5 pts):** All automated tests pass
+## Troubleshooting
 
-### Documentation (20 points)
-- **README Updates (5 pts):** Document your implementation approach
-- **Compilation Log (10 pts):** Detailed compilation documentation
-- **Code Comments (5 pts):** Inline documentation of complex logic
+- **Compilation Errors:** Check includes (`#include "../include/validation.h"`), fix warnings (`-Wall`).
+- **Test Failures:** Read FAIL messages (e.g., "Nominal voltage should be valid"). Verify `is_valid` logic.
+- **Config Parsing:** In multi_validator, handle missing file with defaults; trim whitespace.
+- **Windows-Specific:** If issues, switch to WSL—it's the most reliable.
+- **CI vs. Local:** If local passes but CI fails, check env (use WSL) or uncommitted changes (`git status`).
 
-### GitHub Workflow (10 points)
-- **Commit Quality (10 pts):** Descriptive commit messages, logical commits
-
-### Extra Credit Opportunities (up to 25 points)
-- **Advanced Features:** Additional validation parameters, GUI interface
-- **Performance Optimization:** Efficient algorithms, memory usage optimization
-- **Creative Extensions:** Novel validation approaches, industry-relevant features
-
----
-
-##  Getting Started
-
-### 1. Accept the Assignment
-Click the GitHub Classroom invitation link to create your personal repository.
-
-### 2. Clone Your Repository
-```bash
-git clone https://github.com/[course-org]/day1-c-fundamentals-[username].git
-cd day1-c-fundamentals-[username]
-```
-
-### 3. Set Up Development Environment
-```bash
-# Install required tools (if not already installed)
-sudo apt update
-sudo apt install gcc make git
-
-# Test your setup
-make --version
-gcc --version
-```
-
-### 4. Start with Task 1
-```bash
-# Open the first template file
-code src/voltage_checker.c  # or use your preferred editor
-
-# Read the TODO comments and implement the required functionality
-# Test your implementation
-make voltage_checker
-./voltage_checker
-```
-
-### 5. Commit Your Progress
-```bash
-git add src/voltage_checker.c
-git commit -m "Implement Task 1: Voltage checker with range validation"
-git push origin main
-```
-
----
-
-##  Tips for Success
-
-### Programming Best Practices
-1. **Read TODO comments carefully** - they provide step-by-step guidance
-2. **Test frequently** - compile and test after each small change
-3. **Use meaningful variable names** - `voltage_reading` not `v`
-4. **Add comments** - explain your logic, especially for calculations
-5. **Handle edge cases** - what happens with negative inputs?
-
-### Debugging Strategies
-1. **Start simple** - get basic functionality working first
-2. **Use printf for debugging** - print variable values to understand program flow
-3. **Read compiler messages** - they often tell you exactly what's wrong
-4. **Test with known values** - use inputs where you know the expected output
-
-### Time Management
-- **Task 1-2:** Focus on correctness first, optimization later
-- **Task 3:** Don't skip the compilation practice - it's crucial for later days
-- **Task 4:** Error handling is as important as main functionality
-
----
-
-##  Getting Help
-
-### Resources Available
-- **Office Hours:** [Schedule and location]
-- **Discussion Forum:** [Link to course forum]
-- **Peer Collaboration:** Encouraged for concepts, not code copying
-- **Documentation:** Extensive docs/ folder with guides and references
-
-### Common Issues and Solutions
-- **Compilation Errors:** Check syntax, missing semicolons, unmatched braces
-- **Linker Errors:** Ensure all functions are defined, check Makefile
-- **Runtime Errors:** Use printf debugging, check for uninitialized variables
-- **Git Issues:** Ask for help early, don't wait until submission deadline
-
-### Academic Integrity
-- **Collaboration:** Discuss concepts and approaches with peers
-- **Individual Work:** All code must be your own implementation
-- **AI Tools:** Document any AI assistance in comments
-- **Citations:** Credit any external resources or references used
-
----
-
-##  Submission Instructions
-
-### Final Checklist
-- [ ] All tasks completed and tested
-- [ ] Code compiles without warnings
-- [ ] All automated tests pass
-- [ ] Documentation updated
-- [ ] Commit messages are descriptive
-- [ ] Code is properly commented
-
-### Submission Process
-1. **Final Commit:** Ensure all changes are committed and pushed
-2. **Create Pull Request:** Create PR from your main branch to submission branch
-3. **PR Description:** Summarize your implementation and any challenges faced
-4. **Submit PR Link:** Submit your PR URL via the course submission form
-
-### Deadline
-**Due:** [Insert specific deadline]
-**Late Policy:** [Insert late policy details]
-
----
-
-**Good luck with your first C programming assignment! Remember, this is the foundation for everything we'll build in the remaining days of the course. Take your time to understand the concepts thoroughly.**
+Happy coding! 🚀
 

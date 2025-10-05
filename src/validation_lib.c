@@ -5,6 +5,8 @@
  * This file implements the validation functions declared in validation.h
  * These functions are used by the test framework and can be used by
  * student implementations.
+ *
+ * TODO: Students must implement all functions below to pass the unit tests.
  */
 
 #include <stdio.h>
@@ -13,81 +15,67 @@
 #include <math.h>
 #include "../include/validation.h"
 
-// Validate if a voltage reading is within acceptable range
+// TODO: Implement validate_voltage function
+// Students: Set all fields in ValidationResult and determine is_valid based on range
 ValidationResult validate_voltage(float voltage, float nominal, float tolerance_percent) {
-    ValidationResult result = {0};  // Initialize all fields to zero/default
+    ValidationResult result = {0};  // Initialize to zeros
 
-    // Set basic fields for voltage test
-    result.chip_variant_id = 0;
-    strcpy(result.chip_name, "Test Chip");
-    result.voltage = voltage;
-    result.current = 0.0f;  // Default for power calc
-    result.power = 0.0f;
-    result.temperature = 25.0f;  // Nominal
-    result.frequency = 500.0f;   // Nominal
+    // TODO: Set measured_value, expected_value, tolerance
+    result.measured_value = voltage;
+    result.expected_value = nominal;
+    result.tolerance = tolerance_percent;
 
-    // Calculate acceptable voltage range
+    // TODO: Calculate min and max voltage
     float min_voltage = nominal * (1.0f - tolerance_percent / 100.0f);
     float max_voltage = nominal * (1.0f + tolerance_percent / 100.0f);
 
-    // Set validation flags
-    result.voltage_pass = (voltage >= min_voltage && voltage <= max_voltage);
-    result.current_pass = true;   // Default pass for test
-    result.power_pass = true;
-    result.temperature_pass = true;
-    result.frequency_pass = true;
+    // TODO: Set is_valid based on whether voltage is in range
+    result.is_valid = false;  // Stub - students must implement correctly
 
-    // Overall results
-    int passed_count = result.voltage_pass + result.current_pass + result.power_pass +
-                       result.temperature_pass + result.frequency_pass;
-    result.overall_score = (passed_count / 5.0f) * 100.0f;
-    result.overall_pass = (result.overall_score >= 80.0f);
+    // TODO: Set status_message with appropriate PASS/FAIL text
+    snprintf(result.status_message, sizeof(result.status_message), "TODO: Implement status message");
 
     return result;
 }
 
-// Calculate power consumption from voltage and current
+// TODO: Implement calculate_power function
+// Students: Return voltage * current
 float calculate_power(float voltage, float current) {
-    // Power (P) = Voltage (V) × Current (I)
-    return voltage * current;
+    // TODO: Implement power calculation P = V * I
+    return 0.0f;  // Stub - students implement
 }
 
-// Check if power consumption is within acceptable limits
+// TODO: Implement is_power_acceptable function
+// Students: Return true if power <= max_power
 bool is_power_acceptable(float power, float max_power) {
-    // Implement power acceptability check
-    return power <= max_power;
+    // TODO: Check if power is within acceptable limits
+    return false;  // Stub - students implement
 }
 
-// Format validation results for display
+// TODO: Implement format_validation_result function
+// Students: Format the result into a string in buffer
 void format_validation_result(const ValidationResult* result, char* buffer, size_t buffer_size) {
     if (result == NULL || buffer == NULL || buffer_size < 256) {
         return;
     }
 
-    // Format using voltage and voltage_pass for basic tests
-    snprintf(buffer, buffer_size,
-            "Voltage: %.3fV - %s (Overall: %.1f%% %s)",
-            result->voltage,
-            result->voltage_pass ? "PASS" : "FAIL",
-            result->overall_score,
-            result->overall_pass ? "PASS" : "FAIL");
+    // TODO: Format the validation result string
+    snprintf(buffer, buffer_size, "TODO: Format validation result");
 }
 
-// Calculate percentage difference between measured and expected values
+// TODO: Implement calculate_percentage_error function
+// Students: Return ((measured - expected) / expected) * 100
 float calculate_percentage_error(float measured, float expected) {
-    if (expected == 0.0f) {
-        return 0.0f;
-    }
-
-    return ((measured - expected) / expected) * 100.0f;
+    // TODO: Calculate percentage error, handle division by zero
+    return 0.0f;  // Stub - students implement
 }
 
-// Initialize validation statistics structure
+// TODO: Implement init_validation_stats function
+// Students: Initialize all fields to zero/default values
 void init_validation_stats(ValidationStatistics* stats) {
-    if (stats == NULL) {
-        return;
-    }
+    if (stats == NULL) return;
 
+    // TODO: Set all statistics fields to initial values
     stats->total_tests = 0;
     stats->passed_tests = 0;
     stats->failed_tests = 0;
@@ -98,69 +86,49 @@ void init_validation_stats(ValidationStatistics* stats) {
     stats->standard_deviation = 0.0f;
 }
 
-// Update statistics with new test result
+// TODO: Implement update_validation_stats function
+// Students: Increment counters, update min/max/average
 void update_validation_stats(ValidationStatistics* stats, float value, bool passed) {
-    if (stats == NULL) {
-        return;
-    }
+    if (stats == NULL) return;
 
-    // Update counts
-    stats->total_tests++;
-    if (passed) {
-        stats->passed_tests++;
-    } else {
-        stats->failed_tests++;
-    }
+    // TODO: Update total_tests
+    // Stub - no update
 
-    // Update value statistics
-    if (stats->total_tests == 1) {
-        stats->min_value = value;
-        stats->max_value = value;
-        stats->average_value = value;
-    } else {
-        if (value < stats->min_value) {
-            stats->min_value = value;
-        }
-        if (value > stats->max_value) {
-            stats->max_value = value;
-        }
+    // TODO: Update passed/failed counts
+    // Stub - no update
 
-        // Update running average
-        stats->average_value = ((stats->average_value * (stats->total_tests - 1)) + value) / stats->total_tests;
-    }
+    // TODO: Update min, max, average
+    // Stub - no update
 }
 
-// Calculate final statistics (averages, standard deviation, etc.)
+// TODO: Implement finalize_validation_stats function
+// Students: Calculate pass_rate and standard_deviation
 void finalize_validation_stats(ValidationStatistics* stats) {
-    if (stats == NULL || stats->total_tests == 0) {
-        return;
-    }
+    if (stats == NULL || stats->total_tests == 0) return;
 
-    // Calculate pass rate
-    stats->pass_rate = ((float)stats->passed_tests / stats->total_tests) * 100.0f;
+    // TODO: Calculate pass_rate
+    // Stub - set to 0
 
-    // Note: Standard deviation calculation would require storing all values
-    // For this implementation, we'll set it to 0 as a placeholder
+    // TODO: Calculate standard deviation (simplified or stub)
     stats->standard_deviation = 0.0f;
+    stats->pass_rate = 0.0f;
 }
 
-// Print formatted statistics report
+// TODO: Implement print_validation_stats function
+// Students: Print formatted statistics report
 void print_validation_stats(const ValidationStatistics* stats, const char* title) {
-    if (stats == NULL) {
-        return;
-    }
+    if (stats == NULL) return;
 
     printf("=== %s ===\n", title ? title : "Validation Statistics");
-    printf("Total tests: %d\n", stats->total_tests);
-    printf("Passed: %d\n", stats->passed_tests);
-    printf("Failed: %d\n", stats->failed_tests);
-    printf("Pass rate: %.1f%%\n", stats->pass_rate);
-
-    if (stats->total_tests > 0) {
-        printf("Average value: %.3f\n", stats->average_value);
-        printf("Value range: %.3f - %.3f\n", stats->min_value, stats->max_value);
-    }
-
+    printf("TODO: Implement statistics printing\n");
     printf("========================\n");
 }
+
+/*
+ * TEMPLATE NOTES:
+ * - All functions have TODO comments for students
+ * - Stubs return defaults that will fail tests (e.g., is_valid = false, return 0.0f)
+ * - Students must replace stubs with correct implementations to pass 100% on make test
+ * - Tests will fail initially, providing motivation to implement each function
+ */
 

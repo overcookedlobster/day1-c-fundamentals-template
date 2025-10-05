@@ -42,20 +42,11 @@
 // TODO 2: Define validation result structure
 // Hint: This structure can hold results from validation tests
 typedef struct {
-    int chip_variant_id;
-    char chip_name[64];
-    float voltage;
-    float current;
-    float power;
-    float temperature;
-    float frequency;
-    bool voltage_pass;
-    bool current_pass;
-    bool power_pass;
-    bool temperature_pass;
-    bool frequency_pass;
-    bool overall_pass;
-    float overall_score;
+    float measured_value;
+    float expected_value;
+    float tolerance;
+    bool is_valid;
+    char status_message[100];
 } ValidationResult;
 
 // TODO 3: Function prototypes for common validation operations
