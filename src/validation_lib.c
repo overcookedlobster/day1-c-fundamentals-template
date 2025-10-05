@@ -15,28 +15,33 @@
 
 // Validate if a voltage reading is within acceptable range
 ValidationResult validate_voltage(float voltage, float nominal, float tolerance_percent) {
-    ValidationResult result;
+    ValidationResult result = {0};  // Initialize all fields to zero/default
 
-    // Initialize the result structure with input values
-    result.measured_value = voltage;
-    result.expected_value = nominal;
-    result.tolerance = tolerance_percent;
+    // Set basic fields for voltage test
+    result.chip_variant_id = 0;
+    strcpy(result.chip_name, "Test Chip");
+    result.voltage = voltage;
+    result.current = 0.0f;  // Default for power calc
+    result.power = 0.0f;
+    result.temperature = 25.0f;  // Nominal
+    result.frequency = 500.0f;   // Nominal
 
     // Calculate acceptable voltage range
     float min_voltage = nominal * (1.0f - tolerance_percent / 100.0f);
     float max_voltage = nominal * (1.0f + tolerance_percent / 100.0f);
 
-    // Check if voltage is within acceptable range
-    result.is_valid = (voltage >= min_voltage && voltage <= max_voltage);
+    // Set validation flags
+    result.voltage_pass = (voltage >= min_voltage && voltage <= max_voltage);
+    result.current_pass = true;   // Default pass for test
+    result.power_pass = true;
+    result.temperature_pass = true;
+    result.frequency_pass = true;
 
-    // Generate appropriate status message
-    if (result.is_valid) {
-        snprintf(result.status_message, sizeof(result.status_message),
-                 "PASS: Voltage %.3fV is within range (%.3fV - %.3fV)", voltage, min_voltage, max_voltage);
-    } else {
-        snprintf(result.status_message, sizeof(result.status_message),
-                 "FAIL: Voltage %.3fV is outside range (%.3fV - %.3fV)", voltage, min_voltage, max_voltage);
-    }
+    // Overall results
+    int passed_count = result.voltage_pass + result.current_pass + result.power_pass +
+                       result.temperature_pass + result.frequency_pass;
+    result.overall_score = (passed_count / 5.0f) * 100.0f;
+    result.overall_pass = (result.overall_score >= 80.0f);
 
     return result;
 }
@@ -55,16 +60,17 @@ bool is_power_acceptable(float power, float max_power) {
 
 // Format validation results for display
 void format_validation_result(const ValidationResult* result, char* buffer, size_t buffer_size) {
-    if (result == NULL || buffer == NULL) {
+    if (result == NULL || buffer == NULL || buffer_size < 256) {
         return;
     }
 
+    // Format using voltage and voltage_pass for basic tests
     snprintf(buffer, buffer_size,
-            "Parameter: %.3f (expected: %.3f ±%.1f%%) - %s",
-            result->measured_value,
-            result->expected_value,
-            result->tolerance,
-            result->is_valid ? "PASS" : "FAIL");
+            "Voltage: %.3fV - %s (Overall: %.1f%% %s)",
+            result->voltage,
+            result->voltage_pass ? "PASS" : "FAIL",
+            result->overall_score,
+            result->overall_pass ? "PASS" : "FAIL");
 }
 
 // Calculate percentage difference between measured and expected values

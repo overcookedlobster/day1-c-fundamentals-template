@@ -55,14 +55,14 @@ int test_valid_voltage_readings() {
 
     // Test nominal voltage
     result = validate_voltage(1.8f, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-    TEST_ASSERT(result.is_valid == true, "Nominal voltage should be valid");
+    TEST_ASSERT(result.voltage_pass == true, "Nominal voltage should be valid");
 
     // Test within range
     result = validate_voltage(1.75f, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-    TEST_ASSERT(result.is_valid == true, "1.75V should be valid");
+    TEST_ASSERT(result.voltage_pass == true, "1.75V should be valid");
 
     result = validate_voltage(1.85f, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-    TEST_ASSERT(result.is_valid == true, "1.85V should be valid");
+    TEST_ASSERT(result.voltage_pass == true, "1.85V should be valid");
 
     TEST_PASS("Valid voltage readings");
 }
@@ -73,11 +73,11 @@ int test_invalid_voltage_readings() {
 
     // Test below minimum
     result = validate_voltage(1.5f, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-    TEST_ASSERT(result.is_valid == false, "1.5V should be invalid (too low)");
+    TEST_ASSERT(result.voltage_pass == false, "1.5V should be invalid (too low)");
 
     // Test above maximum
     result = validate_voltage(2.0f, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-    TEST_ASSERT(result.is_valid == false, "2.0V should be invalid (too high)");
+    TEST_ASSERT(result.voltage_pass == false, "2.0V should be invalid (too high)");
 
     TEST_PASS("Invalid voltage readings");
 }
@@ -90,17 +90,17 @@ int test_boundary_conditions() {
 
     // Test exact boundaries
     result = validate_voltage(min_voltage, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-    TEST_ASSERT(result.is_valid == true, "Minimum boundary should be valid");
+    TEST_ASSERT(result.voltage_pass == true, "Minimum boundary should be valid");
 
     result = validate_voltage(max_voltage, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-    TEST_ASSERT(result.is_valid == true, "Maximum boundary should be valid");
+    TEST_ASSERT(result.voltage_pass == true, "Maximum boundary should be valid");
 
     // Test just outside boundaries
     result = validate_voltage(min_voltage - 0.01f, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-    TEST_ASSERT(result.is_valid == false, "Just below minimum should be invalid");
+    TEST_ASSERT(result.voltage_pass == false, "Just below minimum should be invalid");
 
     result = validate_voltage(max_voltage + 0.01f, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-    TEST_ASSERT(result.is_valid == false, "Just above maximum should be invalid");
+    TEST_ASSERT(result.voltage_pass == false, "Just above maximum should be invalid");
 
     TEST_PASS("Boundary conditions");
 }
@@ -180,7 +180,7 @@ int test_stress_validation() {
     for (int i = 0; i < 1000; i++) {
         float voltage = 1.0f + (float)rand() / RAND_MAX * 1.0f; // 1.0V to 2.0V
         ValidationResult result = validate_voltage(voltage, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-        update_validation_stats(&stats, voltage, result.is_valid);
+        update_validation_stats(&stats, voltage, result.voltage_pass);
     }
 
     finalize_validation_stats(&stats);
@@ -197,15 +197,15 @@ int test_edge_cases() {
 
     // Test zero voltage
     result = validate_voltage(0.0f, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-    TEST_ASSERT(result.is_valid == false, "Zero voltage should be invalid");
+    TEST_ASSERT(result.voltage_pass == false, "Zero voltage should be invalid");
 
     // Test negative voltage
     result = validate_voltage(-1.0f, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-    TEST_ASSERT(result.is_valid == false, "Negative voltage should be invalid");
+    TEST_ASSERT(result.voltage_pass == false, "Negative voltage should be invalid");
 
     // Test very high voltage
     result = validate_voltage(100.0f, TEST_NOMINAL_VOLTAGE, TEST_TOLERANCE);
-    TEST_ASSERT(result.is_valid == false, "Very high voltage should be invalid");
+    TEST_ASSERT(result.voltage_pass == false, "Very high voltage should be invalid");
 
     TEST_PASS("Edge cases");
 }
