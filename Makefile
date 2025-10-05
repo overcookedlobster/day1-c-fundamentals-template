@@ -3,7 +3,7 @@
 #
 # Learning Objectives:
 # - Master GCC compilation with validation-appropriate flags
-# - Understand different compilation modes (debug, release, cross-compile)
+# - Understand different compilation modes (debug, release)
 # - Practice automated build systems for embedded development
 
 # Compiler Configuration
@@ -40,9 +40,6 @@ BATCH_PROCESSOR = batch_processor
 # Test Executables
 TEST_VOLTAGE = $(TEST_DIR)/test_voltage
 TEST_POWER = $(TEST_DIR)/test_power
-
-# Validation library
-VALIDATION_LIB = $(SRC_DIR)/validation_lib.c
 
 # Validation library
 VALIDATION_LIB = $(SRC_DIR)/validation_lib.c
@@ -174,7 +171,6 @@ show-flags:
 	@echo "  CFLAGS = $(CFLAGS)"
 	@echo "  DEBUG_FLAGS = $(DEBUG_FLAGS)"
 	@echo "  RELEASE_FLAGS = $(RELEASE_FLAGS)"
-	@echo "  CROSS_FLAGS = $(CROSS_FLAGS)"
 
 # Demonstrate different compilation modes
 demo-compilation:
@@ -185,9 +181,7 @@ demo-compilation:
 	@echo "2. Release compilation:"
 	$(CC) $(CFLAGS) $(RELEASE_FLAGS) -v -c $(SRC_DIR)/voltage_checker.c -o /tmp/release.o 2>&1 | head -5
 	@echo ""
-	@echo "3. Cross-compilation (if toolchain available):"
-	-$(CROSS_CC) $(CFLAGS) $(CROSS_FLAGS) -v -c $(SRC_DIR)/voltage_checker.c -o /tmp/cross.o 2>&1 | head -5
-	@rm -f /tmp/debug.o /tmp/release.o /tmp/cross.o
+	@rm -f /tmp/debug.o /tmp/release.o
 
 # File size comparison
 compare-builds: debug release

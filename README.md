@@ -72,13 +72,14 @@ Power consumption: 0.90W
 Status: Within normal operating range
 ```
 
-### Task 3: GCC Compilation Mastery (60 minutes)
+### Task 3: GCC Compilation Mastery (90 minutes)
 **Objective:** Master GCC compilation with validation-appropriate flags
 
 **What you'll learn:**
 - Using GCC flags: -Wall, -g, -O2, -std=c11
 - Understanding compilation errors and warnings
 - Creating and using Makefiles for automated builds
+- Debug vs release builds
 
 **Implementation:**
 - Complete the provided Makefile
@@ -92,29 +93,10 @@ gcc -Wall -g -std=c11 -o voltage_checker src/voltage_checker.c
 make all
 make clean
 make debug
+make release
 ```
 
-### Task 4: Cross-Compilation Introduction (45 minutes)
-**Objective:** Introduction to cross-compilation for embedded targets
-
-**What you'll learn:**
-- Difference between native and cross-compilation
-- Introduction to riscv64-unknown-elf-gcc
-- Basic embedded development concepts
-
-**Implementation:**
-- Use provided cross-compilation script
-- Compare desktop vs embedded compilation
-- Document differences in `docs/CROSS_COMPILATION_NOTES.md`
-
-**Commands to try:**
-```bash
-./scripts/cross_compile.sh voltage_checker
-file voltage_checker_desktop
-file voltage_checker_embedded
-```
-
-### Task 5: Memory Safety Basics (35 minutes)
+### Task 4: Memory Safety Basics (35 minutes)
 **Objective:** Implement basic memory safety and error handling
 
 **What you'll learn:**
@@ -132,7 +114,7 @@ file voltage_checker_embedded
 
 ##  Homework Extensions (2 hours)
 
-### Task 6: Enhanced Validation Suite (60 minutes)
+### Task 5: Enhanced Validation Suite (60 minutes)
 **Objective:** Create a comprehensive multi-parameter validation system
 
 **Requirements:**
@@ -146,7 +128,7 @@ file voltage_checker_embedded
 - Updated configuration file format
 - Validation report generation
 
-### Task 7: Batch Processing Mode (60 minutes)
+### Task 6: Batch Processing Mode (60 minutes)
 **Objective:** Add batch processing capabilities for automated testing
 
 **Requirements:**
@@ -173,29 +155,29 @@ day1-c-fundamentals-[username]/
 │   ├── voltage_checker.c        # Task 1: Voltage validation (TEMPLATE)
 │   ├── power_calculator.c       # Task 2: Power calculations (TEMPLATE)
 │   ├── debug_practice.c         # Task 3: Compilation practice (BUGGY)
-│   ├── safety_validator.c       # Task 5: Memory safety (TEMPLATE)
-│   ├── multi_validator.c        # Task 6: Multi-parameter validation (HOMEWORK)
-│   └── batch_processor.c        # Task 7: Batch processing (HOMEWORK)
+│   ├── safety_validator.c       # Task 4: Memory safety (TEMPLATE)
+│   ├── validation_lib.c         # Common validation library
+│   ├── multi_validator.c        # Task 5: Multi-parameter validation (HOMEWORK)
+│   └── batch_processor.c        # Task 6: Batch processing (HOMEWORK)
 ├── include/
-│   ├── validation.h             # Common validation functions
-│   └── chip_specs.h            # Chip specification structures
+│   └── validation.h             # Common validation functions
 ├── config/
 │   ├── chip_specs.txt          # Sample chip configurations
 │   └── test_cases.txt          # Test case definitions
 ├── tests/
 │   ├── test_voltage.c          # Unit tests for voltage validation
-│   ├── test_power.c            # Unit tests for power calculations
-│   └── expected_outputs/       # Expected output files for testing
+│   └── test_power.c            # Unit tests for power calculations
 ├── docs/
 │   ├── COMPILATION_LOG.md      # Task 3: Compilation documentation
-│   ├── CROSS_COMPILATION_NOTES.md # Task 4: Cross-compilation notes
+│   ├── TESTING_GUIDE.md        # Testing instructions
 │   └── VALIDATION_SPECS.md     # Chip validation requirements
 ├── scripts/
-│   ├── cross_compile.sh        # Cross-compilation helper script
-│   └── run_tests.sh           # Automated testing script
-└── .github/
-    └── workflows/
-        └── ci.yml              # Automated testing workflow
+│   ├── run_tests.sh           # Automated testing script
+│   └── compilation_demo.sh     # Compilation demonstration
+└── reference-solution/         # Complete reference implementations
+    ├── README.md
+    ├── Makefile
+    └── src/
 ```
 
 ---
@@ -232,14 +214,13 @@ echo -e "1.8\n0.5" | ./power_calculator
 
 ---
 
-##  Assessment Criteria (150 points total)
+##  Assessment Criteria (140 points total)
 
-### Code Functionality (60 points)
+### Code Functionality (55 points)
 - **Task 1 - Voltage Checker (15 pts):** Correct data types, range validation
 - **Task 2 - Power Calculator (15 pts):** Accurate calculations, input handling
-- **Task 3 - Compilation (10 pts):** Successful compilation with all flags
-- **Task 4 - Cross-compilation (10 pts):** Understanding of embedded concepts
-- **Task 5 - Safety Validator (10 pts):** Proper error handling and validation
+- **Task 3 - Compilation (15 pts):** Successful compilation with all flags
+- **Task 4 - Safety Validator (10 pts):** Proper error handling and validation
 
 ### Code Quality (30 points)
 - **Style and Formatting (10 pts):** Consistent indentation, naming conventions
@@ -256,9 +237,8 @@ echo -e "1.8\n0.5" | ./power_calculator
 - **Compilation Log (10 pts):** Detailed compilation documentation
 - **Code Comments (5 pts):** Inline documentation of complex logic
 
-### GitHub Workflow (15 points)
+### GitHub Workflow (10 points)
 - **Commit Quality (10 pts):** Descriptive commit messages, logical commits
-- **Pull Request (5 pts):** Proper PR creation and description
 
 ### Extra Credit Opportunities (up to 25 points)
 - **Advanced Features:** Additional validation parameters, GUI interface
@@ -327,8 +307,7 @@ git push origin main
 ### Time Management
 - **Task 1-2:** Focus on correctness first, optimization later
 - **Task 3:** Don't skip the compilation practice - it's crucial for later days
-- **Task 4:** Understand concepts even if cross-compilation doesn't work perfectly
-- **Task 5:** Error handling is as important as main functionality
+- **Task 4:** Error handling is as important as main functionality
 
 ---
 
